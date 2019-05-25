@@ -1,4 +1,4 @@
-.PHONY: list check-migrations migrate clear-cache lint test
+.PHONY: list check-migrations migrate clear-cache style analyse fix-style test
 
 list:
 	php bin/console list
@@ -12,14 +12,14 @@ migrate:
 clear-cache:
 	php bin/console cache:clear
 
-lint:
-	./vendor/bin/parallel-lint . --exclude vendor
-        
+analyse:
+	vendor/bin/phpstan analyse src tests
+
 style: 
 	./vendor/bin/phpcs -p --standard=PSR2 src tests
         
 fix-style: 
 	./vendor/bin/phpcbf -p --standard=PSR2 src tests
 
-test: lint style
+test: analyse fix-style
 	./vendor/bin/phpunit --configuration phpunit.xml
