@@ -1,0 +1,28 @@
+---
+- name: Copy env.local file. Assuming it exists
+  shell: cp .env.local "{{ ansistrano_release_path.stdout }}/.env.local"
+  args:
+    chdir: /var/www/api/
+
+- name: Copy distribution .htaccess 
+  shell: cp .htaccess.dist .htaccess
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}/public/"
+
+- name: Install composer dependencies with performant autoloader
+  shell: composer install --no-autoloader --no-scripts --no-interaction --no-dev && composer dump-autoload --optimize --classmap-authoritative
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"
+
+- name: Make migrations and clear cache
+  shell: make migrate && make clear-cache
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"
+
+- name: Change var directory permissions to 777 
+  file:
+    path: "{{ ansistrano_release_path.stdout }}/var"
+    state: directory
+    mode: '0777'
+    follow: true
+    recurse: true

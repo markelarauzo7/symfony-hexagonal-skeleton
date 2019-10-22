@@ -6,9 +6,8 @@ namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 
-class DummyTest extends TestCase
+class DummyPHPUnitTest extends TestCase
 {
-
     /**
     * @test
     */

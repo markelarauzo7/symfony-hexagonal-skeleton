@@ -1,0 +1,18 @@
+---
+# Clean up releases
+- name: Find out if there is a release to be cleaned
+  shell: ls -1dt {{ ansistrano_releases_path }}/* | tail -n +{{ ansistrano_keep_releases | int + 1 }}
+  register: folder
+  when: ansistrano_keep_releases > 0
+
+- name: Change permissions to 777 for releases to be cleaned
+  become: true
+  become_user: root
+  become_method: sudo
+  file:
+    path: "{{ item }}/var"
+    mode: u=rwX,g=rwX,o=rwX
+    state: directory
+    recurse: true
+    follow: true
+  with_items: "{{ folder.stdout_lines }}"

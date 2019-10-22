@@ -9,15 +9,26 @@ parameters:
 # php bin/console debug:config doctrine
 doctrine:
     dbal:
-        # configure these for your database server
-        driver: 'pdo_mysql'
-        server_version: 'mariadb-10.1.38'
-        charset: utf8
-        default_table_options:
-            charset: utf8
-            collate: utf8_unicode_ci
+        default_connection: 'default'
+        connections:
 
-        url: '%env(resolve:DATABASE_URL)%'
+            default:
+                driver: 'pdo_mysql'
+                server_version: 'mariadb-10.1.38'
+                charset: utf8
+                default_table_options:
+                    charset: utf8
+                    collate: utf8_unicode_ci
+                url: '%env(resolve:DATABASE_URL)%'
+                
+            # In memory SQLite database for running tests faster. It's different from MySQL so you might find inconsistencies
+            test:
+                driver: 'pdo_sqlite'
+                charset: utf8
+                default_table_options:
+                    charset: utf8
+                    collate: utf8_unicode_ci
+                memory: true
     orm:
         auto_generate_proxy_classes: true
         #   naming_strategy: doctrine.orm.naming_strategy.underscore

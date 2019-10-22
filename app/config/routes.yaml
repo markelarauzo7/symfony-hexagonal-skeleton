@@ -1,3 +1,11 @@
-#index:
-#    path: /
-#    controller: Project\Infrastructure\Controller::indexAction
+index:
+  path: /
+  controller: Project\Infrastructure\WebController::indexAction
+  methods:
+    - GET
+
+indexAPI:
+  path: /api
+  controller: Project\Infrastructure\APIController::indexAction
+  methods:
+    - POST

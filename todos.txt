@@ -1,4 +1,12 @@
-Dockerfile
-Vagrantfile
-README
-Makefile
+Dockerfile =
+Vagrantfile =
+README =
+Makefile =
+License = DONE
+comprobar hooks =
+SQLite = 
+Tests running = 
+SQUASH commits(https://github.com/wprig/wprig/wiki/How-to-squash-commits) =
+.env.test =
+.env =
+

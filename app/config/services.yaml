@@ -5,8 +5,6 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
 
-
-# https://symfony.com/doc/current/service_container.html#services-constructor-injection
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -16,3 +14,11 @@ services:
         public: false        # Allows optimizing the container by removing unused services; this also means
                              # fetching services directly from the container via $container->get() won't work.
                              # The best practice is to be explicit about your dependencies anyway. 
+
+    Project\Infrastructure\WebController:
+      class: Project\Infrastructure\WebController
+      tags: ['controller.service_arguments']
+
+    Project\Infrastructure\APIController:
+      class: Project\Infrastructure\APIController
+      tags: ['controller.service_arguments']

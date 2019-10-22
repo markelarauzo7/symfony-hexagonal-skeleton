@@ -1,0 +1,19 @@
+---
+
+- name: Reload Apache to match symlink
+  become: true
+  become_user: root
+  become_method: sudo
+  service: name=apache2 state=reloaded
+
+- name: Reload PHP-FPM to match symlink
+  become: true
+  become_user: root
+  become_method: sudo
+  service: name=php7.3-fpm state=reloaded
+
+- name: Install nelmio assets 
+  shell: php bin/console assets:install
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"
+  when: install_bundle_assets
