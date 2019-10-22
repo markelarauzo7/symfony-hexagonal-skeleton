@@ -9,4 +9,4 @@ Tests running =
 SQUASH commits(https://github.com/wprig/wprig/wiki/How-to-squash-commits) =
 .env.test =
 .env =
-
+publish in packagist = 
