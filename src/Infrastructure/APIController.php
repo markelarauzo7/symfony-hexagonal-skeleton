@@ -24,10 +24,9 @@ class APIController
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Details to create account.",
      *          required=true,
      *          @SWG\Schema(
-     *              @SWG\Property( property="body", type="string", example="email@example.com")
+     *              @SWG\Property( property="body", type="string")
      *         )
      *     ),
      *  )
