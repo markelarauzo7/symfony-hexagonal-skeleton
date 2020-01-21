@@ -14,26 +14,17 @@ class APIController
     /**
      * Responds with sent body!.
      * @SWG\Tag(name="API")
-     * @SWG\Post(
-     *     consumes={"application/json"},
+     * @SWG\Get(
      *     produces={"application/json"},
      *     @SWG\Response(
      *          response=200,
-     *          description="Returns the body!",
-     *     ),
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          required=true,
-     *          @SWG\Schema(
-     *              @SWG\Property( property="body", type="string")
-     *         )
-     *     ),
+     *          description="Returns our API response!",
+     *     )
      *  )
      */
     public function indexAction(Request $request)
     {
-        $body = $request->get('body');
+        $body = 'Hello api visitor!';
 
         return new JsonResponse($body);
     }

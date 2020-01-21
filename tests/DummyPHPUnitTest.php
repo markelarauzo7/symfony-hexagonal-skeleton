@@ -13,7 +13,6 @@ class DummyPHPUnitTest extends TestCase
     */
     public function this_is_an_example_to_check_tests_are_working()
     {
-
         $this->assertTrue(true);
     }
 }

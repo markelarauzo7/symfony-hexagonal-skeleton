@@ -4,13 +4,17 @@
   become: true
   become_user: root
   become_method: sudo
-  service: name=apache2 state=reloaded
+  service: 
+    name: apache2 
+    state: reloaded
 
 - name: Reload PHP-FPM to match symlink
   become: true
   become_user: root
   become_method: sudo
-  service: name=php7.3-fpm state=reloaded
+  service: 
+    name: "php{{ php_version }}-fpm" 
+    state: reloaded
 
 - name: Install nelmio assets 
   shell: php bin/console assets:install

@@ -12,7 +12,7 @@ class WebController
     /** */
     public function indexAction(TranslatorInterface $translator)
     {
-        $translated = $translator->trans('hello', ['name' => 'visitor'], 'messages');
+        $translated = $translator->trans('hello', ['name' => ' web visitor'], 'messages');
         
         return new Response($translated);
     }

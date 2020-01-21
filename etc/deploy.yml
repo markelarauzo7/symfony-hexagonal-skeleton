@@ -1,16 +1,17 @@
 ---
-- name: Deploying api
+- name: Deploying app
   hosts: all
   vars:
     ansistrano_deploy_via: "git"
-    ansistrano_git_repo: git@github.com:treefy/treefy.git
+    ansistrano_git_repo: git@github.com:markelarauzo7/symfony-hex-arch-skeleton.git
     ansistrano_git_branch: master
-    ansistrano_deploy_to: "/var/www/api"
-    ansistrano_keep_releases: 7
+    ansistrano_deploy_to: "/var/www/app"
+    ansistrano_keep_releases: 5
     ansistrano_before_symlink_tasks_file: "{{ playbook_dir }}/custom-tasks/before-symlink.yml"
     ansistrano_after_symlink_tasks_file: "{{ playbook_dir }}/custom-tasks/after-symlink.yml"
     ansistrano_before_cleanup_tasks_file: "{{ playbook_dir }}/custom-tasks/before-cleanup.yml"
-    install_bundle_assets: true
     ansistrano_allow_anonymous_stats: no
+    php_version: "7.4"
+    install_bundle_assets: true
   roles:
     - { role: ansistrano.deploy }

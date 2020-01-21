@@ -21,7 +21,7 @@ doctrine:
                     collate: utf8_unicode_ci
                 url: '%env(resolve:DATABASE_URL)%'
                 
-            # In memory SQLite database for running tests faster. It's different from MySQL so you might find inconsistencies
+            # In memory SQLite database for running tests faster. There are differences with MySQL so you might find inconsistencies
             test:
                 driver: 'pdo_sqlite'
                 charset: utf8
@@ -37,5 +37,5 @@ doctrine:
             Project:
                 is_bundle: false
                 type: xml
-                dir: '%kernel.project_dir%/app/db/doctrine/mappings'
+                dir: '%kernel.project_dir%/app/db/doctrine/mysql/mappings'
                 prefix: 'Project'

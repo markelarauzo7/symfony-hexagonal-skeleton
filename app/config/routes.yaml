@@ -8,4 +8,4 @@ indexAPI:
   path: /api
   controller: Project\Infrastructure\APIController::indexAction
   methods:
-    - POST
+    - GET

@@ -29,37 +29,36 @@ diff-migration:
 .PHONY: clear-cache
 clear-cache:
 	php bin/console cache:clear
-
-.PHONY: prod-clear-cache
-prod-clear-cache:
-	APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear
-
-.PHONY: analyse
-analyse:
+	
+.PHONY: test
+test: 
 	./bin/phpstan analyse src tests
-
-.PHONY: style
-style:
-	# PHPCS does not follow POSIX standards and return 1 even when succesful
-	./bin/phpcs -p --standard=PSR2 src tests || true
-
-.PHONY: fix-style       
-fix-style:
 	# PHPCBF does not follow POSIX standards and return 1 even when succesful
 	./bin/phpcbf -p --standard=PSR2 src tests || true
-
-.PHONY: test
-test: analyse fix-style
 	./bin/phpunit tests
 
 .PHONY: test-with-coverage
-test-with-coverage: analyse fix-style
+test-with-coverage:
+	./bin/phpstan analyse src tests
+	# PHPCBF does not follow POSIX standards and return 1 even when succesful
+	./bin/phpcbf -p --standard=PSR2 src tests || true
 	./bin/phpunit --coverage-html public/coverage-report
 
 .PHONY: paratest
-paratest: analyse fix-style
+paratest:
+	./bin/phpstan analyse src tests
+	# PHPCBF does not follow POSIX standards and return 1 even when succesful
+	./bin/phpcbf -p --standard=PSR2 src tests || true
 	./bin/paratest -p half tests
 
-.PHONY: webserver-start
-webserver-start:
+.PHONY: start
+start:
 	php bin/console server:start --docroot=public
+
+.PHONY: stop
+stop:
+	php bin/console server:stop
+
+.PHONY: dep
+dep:
+	composer install
