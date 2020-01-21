@@ -1,5 +1,5 @@
 {
-    "name": "markelarauzo7/symfony-hex-arch-skeleton",
+    "name": "markelarauzo7/symfony-hexagonal-skeleton",
     "description": "Hexagonal Architecture skeleton using symfony",
     "keywords": ["symfony", "hexagonal-architecture", "ports-and-adapters", "skeleton", "scaffolding" ],
     "type": "project",
