@@ -9,16 +9,16 @@ services:
     # default configuration for services in *this* file
     _defaults:
 
-        autowire: false      # Automatically injects dependencies in your services when true.
-        autoconfigure: false # Automatically registers your services as commands, event subscribers, etc when true.
+        autowire: true      # Automatically injects dependencies in your services when true.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc when true.
         public: false        # Allows optimizing the container by removing unused services; this also means
                              # fetching services directly from the container via $container->get() won't work.
                              # The best practice is to be explicit about your dependencies anyway. 
 
-    Project\Infrastructure\WebController:
-      class: Project\Infrastructure\WebController
+    Project\Aggregate\Infrastructure\WebController:
+      class: Project\Aggregate\Infrastructure\WebController
       tags: ['controller.service_arguments']
 
-    Project\Infrastructure\APIController:
-      class: Project\Infrastructure\APIController
+    Project\Aggregate\Infrastructure\APIController:
+      class: Project\Aggregate\Infrastructure\APIController
       tags: ['controller.service_arguments']

@@ -1,64 +1,68 @@
-.PHONY: list
-list:
-	php bin/console list
+current-dir := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+CURRENT_UID := $(shell id -u)
+CURRENT_GID := $(shell id -g)
 
-.PHONY: about
-about:
-	php bin/console about
+.PHONY: analyse
+analyse:
+	docker-compose exec php ./bin/phpstan analyse -c phpstan.neon
 
-.PHONY: show-mappings
-show-mappings:
-	php bin/console doctrine:mapping:info
+.PHONY: fix-style       
+fix-style:
+	# have a look at ruleset at: https://mlocati.github.io/php-cs-fixer-configurator/
+	# Will use rules set at .php_cs.dist
+	docker-compose exec php ./bin/php-cs-fixer fix src --verbose
+	docker-compose exec php ./bin/php-cs-fixer fix tests --verbose
 
-.PHONY: check-mappings
-check-mappings:
-	php bin/console doctrine:schema:validate
-
-.PHONY: show-migrations
-show-migrations:
-	php bin/console doctrine:migrations:status	--show-versions
-
-.PHONY: migrate
-migrate:
-	php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
-
-.PHONY: diff-migration
-diff-migration:
-	php bin/console doctrine:migrations:diff
-
-.PHONY: clear-cache
-clear-cache:
-	php bin/console cache:clear
-	
 .PHONY: test
-test: 
-	./bin/phpstan analyse src tests
-	# PHPCBF does not follow POSIX standards and return 1 even when succesful
-	./bin/phpcbf -p --standard=PSR2 src tests || true
-	./bin/phpunit tests
+test: analyse fix-style
+	docker-compose exec php ./bin/phpunit tests
 
-.PHONY: test-with-coverage
-test-with-coverage:
-	./bin/phpstan analyse src tests
-	# PHPCBF does not follow POSIX standards and return 1 even when succesful
-	./bin/phpcbf -p --standard=PSR2 src tests || true
-	./bin/phpunit --coverage-html public/coverage-report
+.PHONY: test-unit
+test-unit: analyse fix-style
+	docker-compose exec php ./bin/phpunit tests --exclude-group=E2E,Integration
 
 .PHONY: paratest
-paratest:
-	./bin/phpstan analyse src tests
-	# PHPCBF does not follow POSIX standards and return 1 even when succesful
-	./bin/phpcbf -p --standard=PSR2 src tests || true
-	./bin/paratest -p half tests
+paratest:analyse fix-style
+	docker-compose exec php ./bin/paratest -p half tests
 
+.PHONY: deps
+deps: composer-install
+
+# 🐘 Composer
+.PHONY: composer-install
+composer-install: CMD=install
+
+.PHONY: composer-update
+composer-update: CMD=update
+
+.PHONY: composer-require
+composer-require: CMD=require
+composer-require: INTERACTIVE=-ti --interactive
+
+.PHONY: composer-require-dev
+composer-require-dev: CMD=require --dev
+composer-require-dev: INTERACTIVE=-ti --interactive
+
+.PHONY: composer
+composer composer-install composer-update composer-require composer-require-dev:
+	docker run --rm $(INTERACTIVE) --volume $(current-dir):/app --user $(CURRENT_UID):$(CURRENT_GID) \
+		composer:2 $(CMD) \
+			--ignore-platform-reqs \
+			--no-ansi
+
+# 🐳 Docker Compose
 .PHONY: start
-start:
-	php bin/console server:start --docroot=public
+start: CMD=up --build -d
 
 .PHONY: stop
-stop:
-	php bin/console server:stop
+stop: CMD=down
 
-.PHONY: dep
-dep:
-	composer install
+# Usage: `make doco CMD="ps --services"`
+# Usage: `make doco CMD="build --parallel --pull --force-rm --no-cache"`
+.PHONY: doco
+doco start stop:
+	docker-compose $(CMD)
+
+.PHONY: php-interactive
+php-interactive:
+	docker-compose exec php /bin/bash

@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 class DummySymfonyClientTest extends WebTestCase
 {
-    private $client;
+    private KernelBrowser $client;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->client = static::createClient();
     }
@@ -18,7 +20,7 @@ class DummySymfonyClientTest extends WebTestCase
     /**
      * @test
      */
-    public function symfony_client_working()
+    public function symfonyClientWorking()
     {
         $this->client->request(
             'GET',
@@ -28,14 +30,14 @@ class DummySymfonyClientTest extends WebTestCase
             [],
             null
         );
-
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     /**
      * @test
      */
-    public function symfony_client_working_2()
+    public function symfonyClientWorking2()
     {
         $this->client->request(
             'GET',
@@ -43,10 +45,10 @@ class DummySymfonyClientTest extends WebTestCase
             [],
             [],
             [
-                'CONTENT_TYPE' => 'application/json'
+                'CONTENT_TYPE' => 'application/json',
             ]
         );
 
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 }

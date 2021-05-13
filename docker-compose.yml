@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8090:8090"
+    volumes:
+      - .:/app:delegated
+    depends_on:
+      - mysql
+    command: symfony serve --dir=public --port=8090 --force-php-discovery
+
+  mysql:
+    image: mariadb:10.4.18
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=project_db
+    healthcheck:
+      test: ["CMD", "mysqladmin", "--user=root", "--password=project", "--host=127.0.0.1", "ping", "--silent"]
+      interval: 2s
+      timeout: 10s
+      retries: 10

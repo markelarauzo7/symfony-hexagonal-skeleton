@@ -11,7 +11,7 @@
     ansistrano_after_symlink_tasks_file: "{{ playbook_dir }}/custom-tasks/after-symlink.yml"
     ansistrano_before_cleanup_tasks_file: "{{ playbook_dir }}/custom-tasks/before-cleanup.yml"
     ansistrano_allow_anonymous_stats: no
-    php_version: "7.4"
+    php_version: "8.0"
     install_bundle_assets: true
   roles:
     - { role: ansistrano.deploy }
