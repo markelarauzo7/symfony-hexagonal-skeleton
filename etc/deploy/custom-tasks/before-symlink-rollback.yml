@@ -1,6 +1,0 @@
----
-# @TODO create a script which compares if there are differences in migrations and execute them
-# - name: Copy env.local file. Assuming it exists
-#   shell: cp .env.local "{{ ansistrano_release_path.stdout }}/.env.local"
-#   args:
-#     chdir: /var/www/api/

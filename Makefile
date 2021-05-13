@@ -66,3 +66,8 @@ doco start stop:
 .PHONY: php-interactive
 php-interactive:
 	docker-compose exec php /bin/bash
+
+.PHONY: php-logs
+php-logs:
+	docker-compose logs -f php 
+

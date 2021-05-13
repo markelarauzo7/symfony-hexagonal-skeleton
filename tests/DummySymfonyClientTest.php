@@ -30,7 +30,7 @@ class DummySymfonyClientTest extends WebTestCase
             [],
             null
         );
-        
+
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
