@@ -39,7 +39,7 @@ WORKDIR /app
 
 
 RUN apt update \
-    && apt install -y wget git zip nano libicu-dev \
+    && apt install -y wget git zip nano libicu-dev procps \
     # For intl
     libicu-dev \
     && docker-php-ext-configure intl \

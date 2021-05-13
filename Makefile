@@ -54,20 +54,21 @@ composer composer-install composer-update composer-require composer-require-dev:
 .PHONY: start
 start: CMD=up --build -d
 
+.PHONY: status
+status: CMD=ps 
+
 .PHONY: stop
 stop: CMD=down
+
+.PHONY: php-interactive
+php-interactive: CMD=exec php /bin/bash
+
+.PHONY: php-logs
+php-logs: CMD=logs -f php 
 
 # Usage: `make doco CMD="ps --services"`
 # Usage: `make doco CMD="build --parallel --pull --force-rm --no-cache"`
 .PHONY: doco
-doco start stop:
+doco start stop status php-interactive php-logs:
 	docker-compose $(CMD)
-
-.PHONY: php-interactive
-php-interactive:
-	docker-compose exec php /bin/bash
-
-.PHONY: php-logs
-php-logs:
-	docker-compose logs -f php 
 
