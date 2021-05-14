@@ -86,6 +86,7 @@
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "^5.2.0",
         "symfony/css-selector": "^5.2.0",
+        "symfony/profiler-pack": "^1.0",
         "symfony/var-dumper": "^5.2.0"
     }
 }
